@@ -11,11 +11,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Superpower.init(
     {
-      name: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: true,
-        notEmpty: true,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: true,
+          notEmpty: true,
+        },
       },
     },
     {
