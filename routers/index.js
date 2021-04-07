@@ -4,7 +4,7 @@ const superpowerRouter = require('./superpower');
 
 const router = Router();
 
-router.use('/superhero', superheroRouter);
-router.use('/superpower', superpowerRouter);
+router.use('/superheroes', superheroRouter);
+router.use('/superpowers', superpowerRouter);
 
 module.exports = router;
