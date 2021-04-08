@@ -37,7 +37,7 @@ module.exports.getSuperpower = async (req, res, next) => {
 
 module.exports.getSuperpowers = async (req, res, next) => {
   try {
-    const powers = findAll();
+    const powers = await findAll();
     if (!powers.length) {
       return next(createError(404, 'Superheroes not found'));
     }
@@ -53,7 +53,7 @@ module.exports.getSuperpowersByHero = async (req, res, next) => {
       params: { heroId },
     } = req;
 
-    const powers = findAll({ where: { id: heroId } });
+    const powers = await findAll({ where: { id: heroId } });
 
     if (!powers.length) {
       return next(createError(404, 'Superpowers not found'));
@@ -99,6 +99,38 @@ module.exports.deleteSuperpower = async (req, res, next) => {
       return next(createError(404, "Superpower doesn't exist"));
     }
     res.send({ data: affectedRows });
+  } catch (err) {
+    next(err);
+  }
+};
+module.exports.deleteSuperpowersbySuperhero = async (req, res, next) => {
+  try {
+    const {
+      params: { heroId },
+    } = req;
+
+    const hero = await Superhero.findByPk(heroId);
+
+    if (!hero) {
+      return next(createError(404, 'Superhero not found'));
+    }
+
+    const powers = await Superpower.getSuperpowers();
+
+    if (!powers.length) {
+      return next(createError(404, 'Superpowers not found'));
+    }
+
+    const result = await hero.removeSuperpowers(powers);
+    // console.log(result);
+    res.send({ data: { result } });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.addSuperpowertoSuperhero = async (req, res, next) => {
+  try {
   } catch (err) {
     next(err);
   }
