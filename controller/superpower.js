@@ -1,5 +1,5 @@
 const createError = require('http-errors');
-const { Superpower } = require('../models');
+const { Superpower, Superhero } = require('../models');
 
 module.exports.createSuperpower = async (req, res, next) => {
   try {
@@ -47,6 +47,24 @@ module.exports.getSuperpowers = async (req, res, next) => {
   }
 };
 
+module.exports.getSuperpowersByHero = async (req, res, next) => {
+  try {
+    const {
+      params: { heroId },
+    } = req;
+
+    const powers = findAll({ where: { id: heroId } });
+
+    if (!powers.length) {
+      return next(createError(404, 'Superpowers not found'));
+    }
+
+    res.send({ data: powers });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.updateSuperpower = async (req, res, next) => {
   try {
     const {
@@ -85,5 +103,3 @@ module.exports.deleteSuperpower = async (req, res, next) => {
     next(err);
   }
 };
-
-
