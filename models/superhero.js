@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         through: 'superpowers_to_superheroes',
         foreignKey: 'superheroId',
       });
+      Superhero.hasMany(models.Image, {
+        foreignKey: 'superheroId',
+      });
     }
   }
   Superhero.init(
