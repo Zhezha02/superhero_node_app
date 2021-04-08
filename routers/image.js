@@ -1,24 +1,24 @@
-const path = require('path');
 const { Router } = require('express');
-const multer = require('multer');
-// const paginate = require('../middlewares/paginate.mw');
 const ImageController = require('../controller/image');
-const { STATIC_PATH } = require('../config/config');
+const upload = require('../middlewares/multer.mw');
+const pagination = require('../middlewares/paginate.mw');
 
 const imageRouter = Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, STATIC_PATH);
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}.${file.originalname}`);
-  },
-});
+imageRouter.post(
+  '/:heroId',
+  upload.single('image'),
+  ImageController.createImage
+);
 
-const upload = multer({ storage });
+imageRouter.get('/:imageId', ImageController.getImage);
+imageRouter.get(
+  '/superhero/:heroId',
+  pagination,
+  ImageController.getSuperheroImages
+);
 
-
-imageRouter.post('/:heroId', upload.single('image'), ImageController.createImage);
+imageRouter.delete('/:imageId', ImageController.deleteImage);
+imageRouter.delete('/superhero/:heroId', ImageController.deleteSuperheroImages);
 
 module.exports = imageRouter;

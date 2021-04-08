@@ -18,14 +18,6 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
-      superheroId: {
-        field: 'superhero_id',
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notNull: true,
-        },
-      },
     },
     {
       sequelize,

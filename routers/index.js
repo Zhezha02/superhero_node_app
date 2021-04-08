@@ -7,6 +7,6 @@ const router = Router();
 
 router.use('/superheroes', superheroRouter);
 router.use('/superpowers', superpowerRouter);
-router.use('/images', imageRouter)
+router.use('/images', imageRouter);
 
 module.exports = router;
