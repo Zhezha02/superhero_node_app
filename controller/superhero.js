@@ -15,15 +15,16 @@ module.exports.createSuperhero = async (req, res, next) => {
       dataValues: { id },
     } = createdHero;
 
-    const insertImageRecords = files.map(({ filename }) => ({
-      name: filename,
-      superheroId: id,
-    }));
-
-    const createdImages = await Image.bulkCreate(insertImageRecords, {
-      fields: ['name', 'superheroId'],
-      returning: true,
-    });
+    const createdImages = await Image.bulkCreate(
+      files.map(({ filename }) => ({
+        name: filename,
+        superheroId: id,
+      })),
+      {
+        fields: ['name', 'superheroId'],
+        returning: true,
+      }
+    );
 
     if (!createdImages.length && files.length) {
       return next(createError(400, "Can't uploud images"));

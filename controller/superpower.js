@@ -103,6 +103,8 @@ module.exports.deleteSuperpower = async (req, res, next) => {
     next(err);
   }
 };
+
+
 module.exports.deleteSuperpowersbySuperhero = async (req, res, next) => {
   try {
     const {
@@ -122,15 +124,46 @@ module.exports.deleteSuperpowersbySuperhero = async (req, res, next) => {
     }
 
     const result = await hero.removeSuperpowers(powers);
-    // console.log(result);
+    console.log(result);
     res.send({ data: { result } });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports.addSuperpowertoSuperhero = async (req, res, next) => {
+module.exports.addSuperpowerToSuperhero = async (req, res, next) => {
   try {
+    const {
+      params: { heroId, powerId },
+    } = req;
+
+    const hero = await Superhero.findByPk(heroId);
+    if (!hero) {
+      return next(createError(404, 'Superhero not found'));
+    }
+
+    const power = await Superpower.findByPk(powerId);
+    if (!power) {
+      return next(createError(404, 'Superpower not found'));
+    }
+
+    await hero.addSuperpowers(power);
+
+    const heroWithPowers = await Superhero.findByPk(heroId, {
+      include: [
+        {
+          model: Superpower,
+          attributes: [['name', 'power']],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+
+    console.log(heroWithPowers);
+
+    res.send({ data: heroWithPowers });
   } catch (err) {
     next(err);
   }
