@@ -5,20 +5,15 @@ const pagination = require('../middlewares/paginate.mw');
 
 const imageRouter = Router();
 
-imageRouter.post(
-  '/:heroId',
-  upload.single('image'),
-  ImageController.createImage
-);
+imageRouter
+  .path('/')
+  .post(upload.single('image'), ImageController.createImage)
+  .delete(ImageController.deleteSuperheroImages)
+  .get(pagination, ImageController.getSuperheroImages);
 
-imageRouter.get('/:imageId', ImageController.getImage);
-imageRouter.get(
-  '/superhero/:heroId',
-  pagination,
-  ImageController.getSuperheroImages
-);
-
-imageRouter.delete('/:imageId', ImageController.deleteImage);
-imageRouter.delete('/superhero/:heroId', ImageController.deleteSuperheroImages);
+imageRouter
+  .path('/:imageId')
+  .get(ImageController.getImage)
+  .delete(ImageController.deleteImage);
 
 module.exports = imageRouter;
