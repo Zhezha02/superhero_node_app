@@ -4,10 +4,13 @@ const SuperpowerController = require('../controller/superpower');
 
 const superpowerRouter = Router();
 
-superpowerRouter.post('/', SuperpowerController.createSuperpower);
+superpowerRouter
+  .route('/')
+  .get(paginate, SuperpowerController.getSuperpowers)
+  .post(SuperpowerController.createSuperpower);
 
 superpowerRouter
-  .path('/:powerId')
+  .route('/:powerId')
   .get(SuperpowerController.getSuperpower)
   .patch(SuperpowerController.updateSuperpower)
   .delete(SuperpowerController.deleteSuperpower);

@@ -4,8 +4,12 @@ const SuperpowerController = require('../controller/superpower');
 const heroPowerRouter = Router();
 
 heroPowerRouter
-  .path('/:powerId')
-  .put(SuperpowerController.addSuperpowerToSuperhero)
-  .delete(SuperpowerController.deleteSuperpowersbySuperhero);
+  .route('/:heroId/superpowers/:powerId')
+  .put(SuperpowerController.addPowerToHero);
+
+heroPowerRouter
+  .route('/:heroId/superpowers/')
+  .get(SuperpowerController.getHeroPowers)
+  .delete(SuperpowerController.deleteHeroPowers);
 
 module.exports = heroPowerRouter;

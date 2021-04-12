@@ -37,28 +37,11 @@ module.exports.getSuperpower = async (req, res, next) => {
 
 module.exports.getSuperpowers = async (req, res, next) => {
   try {
-    const powers = await findAll();
-    if (!powers.length) {
-      return next(createError(404, 'Superheroes not found'));
-    }
-    res.send({ data: heroes });
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.getSuperpowersByHero = async (req, res, next) => {
-  try {
-    const {
-      params: { heroId },
-    } = req;
-
-    const powers = await findAll({ where: { id: heroId } });
-
+    const { pagination = {} } = req;
+    const powers = await Superpower.findAll({ ...pagination });
     if (!powers.length) {
       return next(createError(404, 'Superpowers not found'));
     }
-
     res.send({ data: powers });
   } catch (err) {
     next(err);
@@ -104,37 +87,36 @@ module.exports.deleteSuperpower = async (req, res, next) => {
   }
 };
 
+//Power_to_hero
 
-module.exports.deleteSuperpowersbySuperhero = async (req, res, next) => {
+module.exports.getHeroPowers = async (req, res, next) => {
   try {
     const {
       params: { heroId },
     } = req;
 
     const hero = await Superhero.findByPk(heroId);
-
     if (!hero) {
       return next(createError(404, 'Superhero not found'));
     }
 
-    const powers = await Superpower.getSuperpowers();
+    const powers = await hero.getSuperpowers();
 
     if (!powers.length) {
       return next(createError(404, 'Superpowers not found'));
     }
 
-    const result = await hero.removeSuperpowers(powers);
-    console.log(result);
-    res.send({ data: { result } });
+    res.send({ data: powers });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports.addSuperpowerToSuperhero = async (req, res, next) => {
+module.exports.addPowerToHero = async (req, res, next) => {
   try {
     const {
       params: { heroId, powerId },
+      params,
     } = req;
 
     const hero = await Superhero.findByPk(heroId);
@@ -161,9 +143,33 @@ module.exports.addSuperpowerToSuperhero = async (req, res, next) => {
       ],
     });
 
-    console.log(heroWithPowers);
-
     res.send({ data: heroWithPowers });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteHeroPowers = async (req, res, next) => {
+  try {
+    const {
+      params: { heroId },
+    } = req;
+
+    const hero = await Superhero.findByPk(heroId);
+
+    if (!hero) {
+      return next(createError(404, 'Superhero not found'));
+    }
+
+    const powers = await hero.getSuperpowers();
+
+    if (!powers.length) {
+      return next(createError(404, 'Superpowers not found'));
+    }
+
+    const result = await hero.removeSuperpowers(powers);
+
+    res.send({ data: { result } });
   } catch (err) {
     next(err);
   }
