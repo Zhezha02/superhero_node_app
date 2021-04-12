@@ -8,17 +8,17 @@ const heroPowerRouter = require('./heroPower');
 const superheroRouter = Router();
 
 superheroRouter
-  .path('/')
+  .route('/')
   .get(paginate, SuperheroController.getSuperheroes)
   .post(upload.any(), SuperheroController.createSuperhero);
 
 superheroRouter
-  .path('/:heroId')
+  .route('/:heroId')
   .get(SuperheroController.getSuperhero)
   .patch(upload.any(), SuperheroController.updateSuperhero)
   .delete(SuperheroController.deleteSuperpower);
 
-superheroRouter.use('/:heroId/superpowers', heroPowerRouter);
-superheroRouter.use('/:heroId/images', imageRouter);
+superheroRouter.use(heroPowerRouter);
+superheroRouter.use(imageRouter);
 
 module.exports = superheroRouter;
