@@ -17,11 +17,13 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    await queryInterface.removeColumn(
+      'superpowers_to_superheroes',
+      'created_at'
+    );
+    await queryInterface.removeColumn(
+      'superpowers_to_superheroes',
+      'updated_at'
+    );
   },
 };

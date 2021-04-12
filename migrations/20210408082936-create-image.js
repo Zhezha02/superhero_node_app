@@ -13,9 +13,15 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       superheroId: {
-        allowNull: false,
         field: 'superhero_id',
+        allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: 'superheroes',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       createdAt: {
         field: 'created_at',

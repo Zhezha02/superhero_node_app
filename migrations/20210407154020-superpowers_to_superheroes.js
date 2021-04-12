@@ -19,6 +19,7 @@ module.exports = {
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
+        unique: 'heroPowerUniq',
       },
       superpowerId: {
         field: 'superpower_id',
@@ -30,6 +31,7 @@ module.exports = {
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
+        unique: 'heroPowerUniq',
       },
     });
   },

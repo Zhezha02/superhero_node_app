@@ -15,6 +15,7 @@ module.exports = {
       nickname: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true
       },
       originDescription: {
         allowNull: false,
