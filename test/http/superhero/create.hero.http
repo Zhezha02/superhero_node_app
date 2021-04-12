@@ -3,7 +3,8 @@ Content-Type: application/json
 
 {
   "realName":"Clark Kent",
-  "nickname":"Superman",
+  "nickname":"Superman124",
   "originDescription":"he was born Kal-El on the planet Krypton, before being rocketed to Earth as an infant by his scientist father Jor-El, moments before Krypton's destruction...",
-  "catchPhrase":"Look, up in the sky, it's a bird, it's a plane, it's Superman!"
+  "catchPhrase":"Look, up in the sky, it's a bird, it's a plane, it's Superman!",
+  "superpowers":[1, 2, 3]
 }
