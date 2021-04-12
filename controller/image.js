@@ -12,29 +12,12 @@ module.exports.createImage = async (req, res, next) => {
       name: filename,
       superheroId: heroId,
     });
-    console.log(imageIstan);
 
     if (!imageInstanse) {
       return next(createError(400, "Image can't be upload"));
     }
 
     res.send(imageInstanse);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports.getImage = async (req, res, next) => {
-  try {
-    const {
-      params: { imageId },
-    } = req;
-
-    const image = await Image.findByPk(imageId);
-    if (!image) {
-      return next(createError(404, 'Image not found'));
-    }
-    res.send({ data: image });
   } catch (err) {
     next(err);
   }

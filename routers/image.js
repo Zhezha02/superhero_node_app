@@ -6,14 +6,13 @@ const pagination = require('../middlewares/paginate.mw');
 const imageRouter = Router();
 
 imageRouter
-  .path('/')
+  .route('/:heroId/images')
   .post(upload.single('image'), ImageController.createImage)
   .delete(ImageController.deleteSuperheroImages)
   .get(pagination, ImageController.getSuperheroImages);
 
 imageRouter
-  .path('/:imageId')
-  .get(ImageController.getImage)
+  .route('/:heroId/images/:imageId')
   .delete(ImageController.deleteImage);
 
 module.exports = imageRouter;
